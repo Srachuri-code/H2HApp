@@ -5,6 +5,10 @@ import uuid
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return "Welcome to the Reminder API!"
+
 @app.route('/api/reminders', methods=['GET'])
 def get_reminders():
     reminders = read_reminder_json()
@@ -54,5 +58,3 @@ def not_found(error):
 
 if __name__ == '__main__':
     app.run()
-
-

@@ -2,37 +2,60 @@ import os
 import json
 
 
-def reminder_json_exists():
-    return os.path.isfile('reminder.json')
-
-
 def read_reminder_json():
-    if reminder_json_exists():
-        with open('reminder.json') as reminder_json:
-            data = json.load(reminder_json)
-            return data['reminders']
+    """Reads the JSON file and returns the data."""
+    # Check if the file exists and is not empty
+    if os.path.exists('reminders.json') and os.path.getsize('reminders.json') > 0:
+        with open('reminders.json', 'r') as file:
+            data = json.load(file)
+            return data
     else:
-        return {}
+        # Return an empty dictionary if the file is empty or doesn't exist
+        return {"reminders": {}}
 
+def write_reminder_json(data):
+    """Writes the updated data to the JSON file."""
+    with open('reminders.json', 'w') as file:
+        json.dump(data, file, indent=4)
 
-def create_reminder_json(reminder):
-    if not reminder_json_exists():
-        data = {}
-        data['reminders'] = []
-        data['reminders'].append(reminder)
-        write_reminder_json(data)
+def create_reminder_json(new_reminder):
+    """Creates a new reminder."""
+    data = read_reminder_json()  # Get the current data
+    
+    # Use the reminder's unique ID as the key
+    reminder_id = new_reminder['id']
+    data['reminders'][reminder_id] = new_reminder  # Add the new reminder to the dictionary
+    
+    write_reminder_json(data)  # Write the updated data back to the JSON file
+
+def update_reminder_json(reminder_id, updated_reminder):
+    """Updates an existing reminder."""
+    data = read_reminder_json()  # Get the current data
+    
+    # Check if the reminder ID exists
+    if reminder_id in data['reminders']:
+        data['reminders'][reminder_id].update(updated_reminder)  # Update the reminder
+        write_reminder_json(data)  # Write the updated data back to the JSON file
     else:
-        update_reminder_json(reminder)
+        raise ValueError("Reminder with ID {} does not exist.".format(reminder_id))
 
+def delete_reminder_json(reminder_id):
+    """Deletes an existing reminder."""
+    data = read_reminder_json()  # Get the current data
+    
+    # Check if the reminder ID exists
+    if reminder_id in data['reminders']:
+        del data['reminders'][reminder_id]  # Delete the reminder
+        write_reminder_json(data)  # Write the updated data back to the JSON file
+    else:
+        raise ValueError("Reminder with ID {} does not exist.".format(reminder_id))
 
-def update_reminder_json(reminder):
-    with open('reminder.json') as reminder_json:
-        data = json.load(reminder_json)
-        reminders = data['reminders']
-        reminders.append(reminder)
-        write_reminder_json(data)
-
-
-def write_reminder_json(data, filename='reminder.json'):
-    with open(filename, 'w') as outfile:
-        json.dump(data, outfile, indent=4)
+# Example usage:
+# new_reminder = {
+#     'id': 'unique_id3',
+#     'phone_number': '+1234567890',
+#     'message': 'Test message',
+#     'interval': 'monthly',
+#     'due_date': '2023-11-08'
+# }
+# create_reminder_json(new_reminder)
