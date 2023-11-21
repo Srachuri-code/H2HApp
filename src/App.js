@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './/Favicon.png';
 import './App.css';
 import SMSForm from './SMSForm';
 
