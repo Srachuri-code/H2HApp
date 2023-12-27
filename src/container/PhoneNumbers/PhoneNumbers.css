@@ -1,0 +1,17 @@
+.phone-numbers-container {
+    margin-left: 10px; /* Adjust margin as needed */
+}
+
+.phone-numbers-container h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.phone-numbers-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.phone-numbers-list li {
+    margin: 5px 0;
+}
