@@ -4,7 +4,6 @@ import './App.css';
 import SMSForm from './SMSForm';
 
 class App extends Component {
-  // Dummy state data - replace with actual data fetching logic
   state = {
     users: [],
     organizations: {}, // e.g., { 'Org1': [{id: 1, name: 'User 1'}], 'Org2': [{id: 2, name: 'User 2'}] }
