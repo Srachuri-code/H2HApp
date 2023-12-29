@@ -4,8 +4,6 @@ import { db } from "../../firebase";
 import { addDoc, collection, serverTimestamp, getDocs, query, where } from 'firebase/firestore';
 
 
-const predefinedOrganizations = ['Organization A', 'Organization B', 'Organization C'];
-
 const Organizations = ({ onSelectOrganization }) => {
   const [organizations, setOrganizations] = useState([]);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
@@ -52,4 +50,4 @@ const Organizations = ({ onSelectOrganization }) => {
   );
 };
 
-export default Organizations;
+export default Organizations; 

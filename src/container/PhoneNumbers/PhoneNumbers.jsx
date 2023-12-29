@@ -1,19 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import './PhoneNumbers.css';
-
-const predefinedPhoneNumbers = {
-  'Organization A': ['123-456-7890', '987-654-3210'],
-  'Organization B': ['555-555-5555'],
-  'Organization C': ['999-999-9999'],
-};
+import { db } from "../../firebase";
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const PhoneNumbers = ({ organization, onPhoneNumbersChange }) => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
 
   useEffect(() => {
-    const fetchedNumbers = predefinedPhoneNumbers[organization] || [];
-    setPhoneNumbers(fetchedNumbers);
-    onPhoneNumbersChange(fetchedNumbers);
+    const fetchPhoneNumbers = async () => {
+      if (!organization) return;
+  
+      try {
+        const organizationsCollection = collection(db, 'input-group');
+        const querySnapshot = await getDocs(query(organizationsCollection, where('organization', '==', organization)));
+  
+        let fetchedPhoneNumbers = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const organizationData = data.phone_number || []; // Ensure phone_number is an array
+          fetchedPhoneNumbers = fetchedPhoneNumbers.concat(organizationData); // Concatenate arrays
+        });
+  
+        setPhoneNumbers(fetchedPhoneNumbers);
+        onPhoneNumbersChange(fetchedPhoneNumbers);
+      } catch (error) {
+        console.error('Error fetching phone numbers:', error);
+      }
+    };
+  
+    fetchPhoneNumbers();
   }, [organization, onPhoneNumbersChange]);
 
   return (
