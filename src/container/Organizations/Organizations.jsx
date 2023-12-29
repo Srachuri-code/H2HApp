@@ -24,13 +24,17 @@ const Organizations = ({ onSelectOrganization }) => {
           const organizationsData = data.organization;
           organizationsList.push(organizationsData);
         });
-        setOrganizations(organizationsList);
+
+        // Remove duplicates using Set and convert back to an array
+        const uniqueOrganizations = [...new Set(organizationsList)];
+
+        setOrganizations(uniqueOrganizations);
       } catch (error) {
         console.error('error fetching organizations:', error);
       }
     };
-    fetchOrganizations(); 
-  }, []); 
+    fetchOrganizations();
+  }, []);
 
   return (
     <div className="app__organizations-container">
@@ -50,4 +54,4 @@ const Organizations = ({ onSelectOrganization }) => {
   );
 };
 
-export default Organizations; 
+export default Organizations;
