@@ -14,15 +14,24 @@ const PhoneNumbers = ({ organization, onPhoneNumbersChange }) => {
         const organizationsCollection = collection(db, 'input-group');
         const querySnapshot = await getDocs(query(organizationsCollection, where('organization', '==', organization)));
   
-        let fetchedPhoneNumbers = [];
+        const uniquePhoneNumbers = new Set();
+  
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          const organizationData = data.phone_number || []; // Ensure phone_number is an array
-          fetchedPhoneNumbers = fetchedPhoneNumbers.concat(organizationData); // Concatenate arrays
+          const organizationData = data.phone_number || [];
+          if (Array.isArray(organizationData)) { // Check if it's an array
+            organizationData.forEach((phoneNumber) => {
+              uniquePhoneNumbers.add(phoneNumber);
+            });
+          } else {
+            uniquePhoneNumbers.add(organizationData); // If it's not an array, treat it as a single number
+          }
         });
   
-        setPhoneNumbers(fetchedPhoneNumbers);
-        onPhoneNumbersChange(fetchedPhoneNumbers);
+        const uniquePhoneNumbersArray = Array.from(uniquePhoneNumbers);
+        console.log('Unique phone numbers:', uniquePhoneNumbersArray); // Check fetched numbers
+        setPhoneNumbers(uniquePhoneNumbersArray);
+        onPhoneNumbersChange(uniquePhoneNumbersArray);
       } catch (error) {
         console.error('Error fetching phone numbers:', error);
       }
@@ -30,7 +39,7 @@ const PhoneNumbers = ({ organization, onPhoneNumbersChange }) => {
   
     fetchPhoneNumbers();
   }, [organization, onPhoneNumbersChange]);
-
+  
   return (
     <div className="app__phone-numbers-container">
       {organization && <h2>Phone Numbers for {organization}:</h2>}
