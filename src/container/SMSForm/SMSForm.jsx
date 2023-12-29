@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SMSForm.css';
 
 const SMSForm = ({ to }) => {
-  const [message, setMessage] = useState({ to: '', body: '' });
+  const [message, setMessage] = useState({ to: to || '', body: '' });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
 
@@ -10,10 +10,32 @@ const SMSForm = ({ to }) => {
     setMessage((prevState) => ({ ...prevState, to }));
   }, [to]);
 
+  // const onSubmit = (event) => {
+  //   event.preventDefault();
+  //   setSubmitting(true);
+  //   fetch('/api/messages', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(message)
+  //   })
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     if (data.success) {
+  //       setMessage({ to: '', body: '' });
+  //       setError(false);
+  //     } else {
+  //       setError(true);
+  //     }
+  //     setSubmitting(false);
+  //   });
+  // };
+
   const onSubmit = (event) => {
     event.preventDefault();
     setSubmitting(true);
-    fetch('/api/messages', {
+    fetch('http://localhost:3001/api/messages', { // Adjust the URL accordingly
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -29,8 +51,14 @@ const SMSForm = ({ to }) => {
         setError(true);
       }
       setSubmitting(false);
+    })
+    .catch(error => {
+      console.error('Error sending message:', error);
+      setError(true);
+      setSubmitting(false);
     });
   };
+  
 
   const onHandleChange = (event) => {
     const { name, value } = event.target;
@@ -48,7 +76,7 @@ const SMSForm = ({ to }) => {
           type="tel"
           name="to"
           id="to"
-          value={message.to}
+          value={message.to || ''}
           onChange={onHandleChange}
         />
       </div>
@@ -57,7 +85,7 @@ const SMSForm = ({ to }) => {
         <textarea
           name="body"
           id="body"
-          value={message.body}
+          value={message.body || ''}
           onChange={onHandleChange}
         />
       </div>

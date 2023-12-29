@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const client = require('twilio')(
@@ -7,6 +8,7 @@ const client = require('twilio')(
 );
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
@@ -34,6 +36,11 @@ app.post('/api/messages', (req, res) => {
     });
 });
 
-app.listen(3001, () =>
-  console.log('Express server is running on localhost:3001')
-);
+// app.listen(3001, () =>
+//   console.log('Express server is running on localhost:3001')
+// );
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
