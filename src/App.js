@@ -7,13 +7,18 @@ import { Organizations, PhoneNumbers, Metrics, SMSForm } from './container';
 const App = () => {
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [phoneNumbers, setPhoneNumbers] = useState([]);
+  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState('');
 
   return (
     <div className='app'>
       <Organizations onSelectOrganization={setSelectedOrganization} />
-      <PhoneNumbers organization={selectedOrganization} onPhoneNumbersChange={setPhoneNumbers} />
+      <PhoneNumbers 
+        organization={selectedOrganization} 
+        onPhoneNumbersChange={setPhoneNumbers}
+        onSelectPhoneNumber={setSelectedPhoneNumber} 
+      />
       <Metrics />
-      <SMSForm phoneNumbers={phoneNumbers} />
+      <SMSForm to={selectedPhoneNumber} />
     </div>
   );
 };

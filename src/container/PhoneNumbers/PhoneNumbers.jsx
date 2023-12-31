@@ -3,7 +3,7 @@ import './PhoneNumbers.css';
 import { db } from "../../firebase";
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
-const PhoneNumbers = ({ organization, onPhoneNumbersChange }) => {
+const PhoneNumbers = ({ organization, onPhoneNumbersChange, onSelectPhoneNumber }) => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
 
   useEffect(() => {
@@ -40,12 +40,18 @@ const PhoneNumbers = ({ organization, onPhoneNumbersChange }) => {
     fetchPhoneNumbers();
   }, [organization, onPhoneNumbersChange]);
   
+  const handlePhoneNumberClick = (phoneNumber) => {
+    onSelectPhoneNumber(phoneNumber);
+  };
+
   return (
     <div className="app__phone-numbers-container">
       {organization && <h2>Phone Numbers for {organization}:</h2>}
       <ul className="app__phone-numbers">
         {phoneNumbers.map((phoneNumber, index) => (
-          <li key={index} className="app__phone-numbers-item">
+          <li key={index} 
+            className="app__phone-numbers-item"
+            onClick={() => handlePhoneNumberClick(phoneNumber)}>
             {phoneNumber}
           </li>
         ))}

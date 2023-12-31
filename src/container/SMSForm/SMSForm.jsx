@@ -9,29 +9,7 @@ const SMSForm = ({ to }) => {
   useEffect(() => {
     setMessage((prevState) => ({ ...prevState, to }));
   }, [to]);
-
-  // const onSubmit = (event) => {
-  //   event.preventDefault();
-  //   setSubmitting(true);
-  //   fetch('/api/messages', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(message)
-  //   })
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     if (data.success) {
-  //       setMessage({ to: '', body: '' });
-  //       setError(false);
-  //     } else {
-  //       setError(true);
-  //     }
-  //     setSubmitting(false);
-  //   });
-  // };
-
+  
   const onSubmit = (event) => {
     event.preventDefault();
     setSubmitting(true);
