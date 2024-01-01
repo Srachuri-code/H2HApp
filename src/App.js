@@ -11,14 +11,21 @@ const App = () => {
 
   return (
     <div className='app'>
-      <Organizations onSelectOrganization={setSelectedOrganization} />
-      <PhoneNumbers 
-        organization={selectedOrganization} 
-        onPhoneNumbersChange={setPhoneNumbers}
-        onSelectPhoneNumber={setSelectedPhoneNumber} 
-      />
-      <Metrics />
-      <SMSForm to={selectedPhoneNumber} />
+      <div className='metrics-container'>
+        <div className='metrics-placeholder'>Metrics Coming Soon!</div>
+        {/* We'll replace this with <Metrics /> when ready */}
+      </div>
+      <div className='selector-container'>
+        <Organizations onSelectOrganization={setSelectedOrganization} />
+        <PhoneNumbers 
+          organization={selectedOrganization} 
+          onPhoneNumbersChange={setPhoneNumbers}
+          onSelectPhoneNumber={setSelectedPhoneNumber} 
+        />
+      </div>
+      <div className='messaging-container'>
+        <SMSForm to={selectedPhoneNumber} />
+      </div>
     </div>
   );
 };

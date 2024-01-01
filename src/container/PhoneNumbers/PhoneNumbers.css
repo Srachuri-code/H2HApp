@@ -1,26 +1,24 @@
 .app__phone-numbers-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    margin-left: 10px;
+    margin-left: 1rem;
 }
 
 .app__phone-numbers-container h2 {
     font-size: 18px;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 
 .app__phone-numbers {
     list-style-type: none;
     padding: 0;
-    width: 30%;
-    max-height: 400px;
-    overflow-y: scroll;
+    max-height: 16rem;
     border: 1px solid #ccc;
+    overflow-y: scroll;
 }
 
 .app__phone-numbers-item {
-    padding: 10px;
+    padding: 0.5rem;
     cursor: pointer;
 }
 
