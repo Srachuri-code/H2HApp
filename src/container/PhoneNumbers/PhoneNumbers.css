@@ -27,8 +27,8 @@
 .app__phone-numbers-item:hover {
     background-color: #f0f0f0;
 }
-/* 
+
 .app__phone-numbers-item.active {
     background-color: #007bff;
     color: #fff;
-} */
+}

@@ -5,6 +5,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const PhoneNumbers = ({ organization, onPhoneNumbersChange, onSelectPhoneNumber }) => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
+  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState(null);
 
   useEffect(() => {
     const fetchPhoneNumbers = async () => {
@@ -41,6 +42,7 @@ const PhoneNumbers = ({ organization, onPhoneNumbersChange, onSelectPhoneNumber 
   }, [organization, onPhoneNumbersChange]);
   
   const handlePhoneNumberClick = (phoneNumber) => {
+    setSelectedPhoneNumber(phoneNumber);
     onSelectPhoneNumber(phoneNumber);
   };
 
@@ -50,7 +52,7 @@ const PhoneNumbers = ({ organization, onPhoneNumbersChange, onSelectPhoneNumber 
       <ul className="app__phone-numbers">
         {phoneNumbers.map((phoneNumber, index) => (
           <li key={index} 
-            className="app__phone-numbers-item"
+            className={`app__phone-numbers-item ${selectedPhoneNumber === phoneNumber ? 'active' : ''}`}
             onClick={() => handlePhoneNumberClick(phoneNumber)}>
             {phoneNumber}
           </li>
