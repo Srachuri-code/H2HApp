@@ -6,7 +6,11 @@ import { images } from './components';
 const App = () => {
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [phoneNumbers, setPhoneNumbers] = useState([]);
-  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState('');
+  const [selectedPhoneNumbers, setSelectedPhoneNumbers] = useState([]);
+
+  const handleSelectPhoneNumber = (selectedNumbers) => {
+    setSelectedPhoneNumbers(selectedNumbers);
+  };
 
   return (
     <div className='app'>
@@ -19,12 +23,13 @@ const App = () => {
         <PhoneNumbers 
           organization={selectedOrganization} 
           onPhoneNumbersChange={setPhoneNumbers}
-          onSelectPhoneNumber={setSelectedPhoneNumber} 
+          onSelectPhoneNumber={handleSelectPhoneNumber} 
         />
       </div>
       <div className='messaging-container'>
-        <SMSForm to={selectedPhoneNumber} />
+        <SMSForm to={Array.isArray(selectedPhoneNumbers) ? selectedPhoneNumbers.join(', ') : ''} />
       </div>
+
       <div className='logos-container'>
         <img src={images.TheCHECLogo} alt="TheCHECLogo" className="app-logo" />
         <img src={images.HealthyHeartslogo} alt="HealthyHeartsLogo" className="app-logo" />
