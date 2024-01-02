@@ -59,7 +59,7 @@ const SMSForm = ({ to }) => {
         />
       </div>
       <div>
-        <label htmlFor="body">Body:</label>
+        <label htmlFor="body">Message:</label>
         <textarea
           name="body"
           id="body"

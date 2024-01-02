@@ -1,8 +1,7 @@
-// import logo from './Favicon.png';
-
 import React, { useState } from 'react';
 import './App.css';
 import { Organizations, PhoneNumbers, Metrics, SMSForm } from './container';
+import { images } from './components';
 
 const App = () => {
   const [selectedOrganization, setSelectedOrganization] = useState('');
@@ -12,7 +11,7 @@ const App = () => {
   return (
     <div className='app'>
       <div className='metrics-container'>
-        <div className='metrics-placeholder'>Metrics Coming Soon!</div>
+        <div className='metrics-placeholder'><h2>Metrics Coming Soon!</h2></div>
         {/* We'll replace this with <Metrics /> when ready */}
       </div>
       <div className='selector-container'>
@@ -25,6 +24,10 @@ const App = () => {
       </div>
       <div className='messaging-container'>
         <SMSForm to={selectedPhoneNumber} />
+      </div>
+      <div className='logos-container'>
+        <img src={images.TheCHECLogo} alt="TheCHECLogo" className="app-logo" />
+        <img src={images.HealthyHeartslogo} alt="HealthyHeartsLogo" className="app-logo" />
       </div>
     </div>
   );

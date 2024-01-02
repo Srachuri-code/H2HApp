@@ -27,6 +27,6 @@
 }
 
 .app__phone-numbers-item.active {
-    background-color: #007bff;
+    background-color: #ff0000;
     color: #fff;
 }

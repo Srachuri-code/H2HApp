@@ -34,3 +34,22 @@
     justify-content: center;
     align-items: center;
 }
+
+.logos-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    margin: 1em;
+}
+
+.app-logo {
+    height: 50px;
+    width: auto;
+    margin-right: 0.5em;
+}
+
+.app-logo:last-child {
+    margin-right: 0;
+}
