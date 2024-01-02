@@ -21,17 +21,23 @@ app.get('/api/greeting', (req, res) => {
 
 app.post('/api/messages', (req, res) => {
   res.header('Content-Type', 'application/json');
-  client.messages
-    .create({
+  
+  const toNumbers = req.body.to.split(','); // Splitting the 'to' field into an array of numbers
+  
+  const promises = toNumbers.map((phoneNumber) => {
+    return client.messages.create({
       from: process.env.TWILIO_PHONE_NUMBER,
-      to: req.body.to,
+      to: phoneNumber.trim(), // Trim to remove any whitespace
       body: req.body.body
-    })
+    });
+  });
+  
+  Promise.all(promises)
     .then(() => {
       res.send(JSON.stringify({ success: true }));
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
       res.send(JSON.stringify({ success: false }));
     });
 });
