@@ -50,7 +50,7 @@ const SMSForm = ({ to }) => {
     >
       <div>
         <label htmlFor="to">To:</label>
-        <input
+        <textarea
           type="tel"
           name="to"
           id="to"
