@@ -15,8 +15,8 @@ const App = () => {
   return (
     <div className='app'>
       <div className='metrics-container'>
-        <div className='metrics-placeholder'><h2>Metrics Coming Soon!</h2></div>
-        {/* We'll replace this with <Metrics /> when ready */}
+        {/* <div className='metrics-placeholder'><h2>Metrics Coming Soon!</h2></div> */}
+        <Metrics />
       </div>
       <div className='selector-container'>
         <Organizations onSelectOrganization={setSelectedOrganization} />
