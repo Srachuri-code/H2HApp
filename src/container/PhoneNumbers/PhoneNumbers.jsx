@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PhoneNumbers.css';
 import { db } from '../../firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 
 const PhoneNumbers = ({ organization, onPhoneNumbersChange, onSelectPhoneNumber }) => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
@@ -13,7 +13,13 @@ const PhoneNumbers = ({ organization, onPhoneNumbersChange, onSelectPhoneNumber 
 
       try {
         const organizationsCollection = collection(db, 'input-group');
-        const querySnapshot = await getDocs(query(organizationsCollection, where('organization', '==', organization)));
+        const querySnapshot = await getDocs(
+          query(
+            organizationsCollection,
+            where('organization', '==', organization),
+            orderBy('timestamp', 'desc') // Order by timestamp in descending order
+          )
+        );
 
         const uniquePhoneNumbers = new Set();
 
@@ -44,11 +50,10 @@ const PhoneNumbers = ({ organization, onPhoneNumbersChange, onSelectPhoneNumber 
     const updatedPhoneNumbers = selectedPhoneNumbers.includes(phoneNumber)
       ? selectedPhoneNumbers.filter((num) => num !== phoneNumber)
       : [...selectedPhoneNumbers, phoneNumber];
-  
+
     setSelectedPhoneNumbers(updatedPhoneNumbers);
     onSelectPhoneNumber(updatedPhoneNumbers);
   };
-  
 
   return (
     <div className="app__phone-numbers-container">
