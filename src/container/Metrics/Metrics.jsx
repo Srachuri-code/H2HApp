@@ -8,12 +8,12 @@ const Metrics = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const phoneNumbersCollection = collection(db, 'input-group'); // Replace with your collection name
+        const phoneNumbersCollection = collection(db, 'input-group'); 
         const querySnapshot = await getDocs(phoneNumbersCollection);
         
         const uniqueNumbers = new Set();
         querySnapshot.forEach((doc) => {
-          const phoneNumber = doc.data().phone_number; // Replace with your field name
+          const phoneNumber = doc.data().phone_number; 
           uniqueNumbers.add(phoneNumber);
         });
 

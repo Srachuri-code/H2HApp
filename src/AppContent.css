@@ -1,0 +1,55 @@
+/* * {
+    border: 1px solid red;
+} */
+
+.app {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+.metrics-container, .selector-container, .messaging-container {
+    padding: 1rem;
+}
+
+.metrics-container {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selector-container {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.messaging-container {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logos-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    margin: 1em;
+}
+
+.app-logo {
+    height: 50px;
+    width: auto;
+    margin-right: 0.5em;
+}
+
+.app-logo:last-child {
+    margin-right: 0;
+}

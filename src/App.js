@@ -1,40 +1,39 @@
-import React, { useState } from 'react';
-import './App.css';
-import { Organizations, PhoneNumbers, Metrics, SMSForm } from './container';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Organizations, PhoneNumbers, Metrics, SMSForm} from './container';
 import { images } from './components';
+import SignIn from './container/auth/SignIn';
+import AuthDetails from './container/AuthDetails';
+import AppContent from './AppContent';
 
 const App = () => {
-  const [selectedOrganization, setSelectedOrganization] = useState('');
-  const [phoneNumbers, setPhoneNumbers] = useState([]);
-  const [selectedPhoneNumbers, setSelectedPhoneNumbers] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleSelectPhoneNumber = (selectedNumbers) => {
-    setSelectedPhoneNumbers(selectedNumbers);
-  };
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      setIsAuthenticated(true); // Example logic to set authentication status
+    };
+
+    // Call the function to check authentication status
+    checkAuthStatus();
+  }, []);
 
   return (
-    <div className='app'>
-      <div className='metrics-container'>
-        {/* <div className='metrics-placeholder'><h2>Metrics Coming Soon!</h2></div> */}
-        <Metrics />
-      </div>
-      <div className='selector-container'>
-        <Organizations onSelectOrganization={setSelectedOrganization} />
-        <PhoneNumbers 
-          organization={selectedOrganization} 
-          onPhoneNumbersChange={setPhoneNumbers}
-          onSelectPhoneNumber={handleSelectPhoneNumber} 
-        />
-      </div>
-      <div className='messaging-container'>
-        <SMSForm to={Array.isArray(selectedPhoneNumbers) ? selectedPhoneNumbers.join(', ') : ''} />
-      </div>
+    <Router>
+      <Routes>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/" element={<MainApp isAuthenticated={isAuthenticated} />} />
+      </Routes>
+    </Router>
+  );
+};
 
-      <div className='logos-container'>
-        <img src={images.TheCHECLogo} alt="TheCHECLogo" className="app-logo" />
-        <img src={images.HealthyHeartslogo} alt="HealthyHeartsLogo" className="app-logo" />
-      </div>
-    </div>
+const MainApp = ({ isAuthenticated }) => {
+  return (
+    <>
+      <AuthDetails />
+      {isAuthenticated ? <AppContent /> : <Navigate to="/signin" />} {/* Redirect logic */}
+    </>
   );
 };
 
