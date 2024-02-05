@@ -13,10 +13,17 @@ const App = () => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [selectedPhoneNumbers, setSelectedPhoneNumbers] = useState([]);
   const [user, setUser] = useState(null);
+  const [emailApproved, setEmailApproved] = useState(true); // State to track if email is approved
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
+      // Check if the user's email is approved
+      if (user && !allowedUsers.includes(user.email)) {
+        setEmailApproved(false);
+      } else {
+        setEmailApproved(true);
+      }
     });
 
     return () => unsubscribe();
@@ -36,6 +43,14 @@ const App = () => {
     signOut();
   };
 
+  const handleTryAgainClick = () => {
+    // Reset the email approval state
+    setEmailApproved(true);
+    // Sign out to go back to the sign-in page
+    signOut();
+  };
+
+
   return (
     <div className='app'>
       <div className='header'>
@@ -52,31 +67,42 @@ const App = () => {
         )}
       </div>
 
-      {(user && allowedUsers.includes(user.email)) ? (
-        <>
-          <div className='metrics-container'>
-            <Metrics />
+      {emailApproved ? (
+        // If email is approved, show the dashboard components
+        (user && allowedUsers.includes(user.email)) ? (
+          <>
+            <div className='metrics-container'>
+              <Metrics />
+            </div>
+            <div className='selector-container'>
+              <Organizations onSelectOrganization={setSelectedOrganization} />
+              <PhoneNumbers
+                organization={selectedOrganization}
+                onPhoneNumbersChange={setPhoneNumbers}
+                onSelectPhoneNumber={handleSelectPhoneNumber}
+              />
+            </div>
+            <div className='messaging-container'>
+              <SMSForm to={Array.isArray(selectedPhoneNumbers) ? selectedPhoneNumbers.join(', ') : ''} />
+            </div>
+          </>
+        ) : (
+          // If the user is not signed in, show the sign-in button
+          <div className='sign-in-container'>
+            <h2>Heart2Heart Admin Dashboard</h2>
+            {!user || (user && allowedUsers.includes(user.email)) ? (
+              <button onClick={handleSignInClick}>Sign in With Google</button>
+            ) : (
+              <p>This email is not approved to view the dashboard.</p>
+            )}
           </div>
-          <div className='selector-container'>
-            <Organizations onSelectOrganization={setSelectedOrganization} />
-            <PhoneNumbers
-              organization={selectedOrganization}
-              onPhoneNumbersChange={setPhoneNumbers}
-              onSelectPhoneNumber={handleSelectPhoneNumber}
-            />
-          </div>
-          <div className='messaging-container'>
-            <SMSForm to={Array.isArray(selectedPhoneNumbers) ? selectedPhoneNumbers.join(', ') : ''} />
-          </div>
-        </>
+        )
       ) : (
+        // If email is not approved, show the try again message
         <div className='sign-in-container'>
-          <h2>Heart2Heart Admin Sign In</h2>
-          {!user || (user && allowedUsers.includes(user.email)) ? (
-            <button onClick={handleSignInClick}>Sign in With Google</button>
-          ) : (
-            <p>This email is not approved.</p>
-          )}
+          <h2>Heart2Heart Admin Dashboard</h2>
+          <p>This email is not approved to view the dashboard. Please try again.</p>
+          <button onClick={handleTryAgainClick}>Try Again</button>
         </div>
       )}
 
