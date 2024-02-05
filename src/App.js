@@ -71,11 +71,11 @@ const App = () => {
         </>
       ) : (
         <div className='sign-in-container'>
-          <h2>Sign In</h2>
+          <h2>Heart2Heart Admin Sign In</h2>
           {!user || (user && allowedUsers.includes(user.email)) ? (
-            <button onClick={handleSignInClick}>Sign In with Google</button>
+            <button onClick={handleSignInClick}>Sign in With Google</button>
           ) : (
-            <p>This email is not approved to view the dashboard.</p>
+            <p>This email is not approved.</p>
           )}
         </div>
       )}
