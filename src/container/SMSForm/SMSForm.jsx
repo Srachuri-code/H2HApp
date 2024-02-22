@@ -13,7 +13,7 @@ const SMSForm = ({ to }) => {
   const onSubmit = (event) => {
     event.preventDefault();
     setSubmitting(true);
-    fetch('http://localhost:3001/api/messages', { // Adjust the URL accordingly
+    fetch('https://us-central1-heart2heart-55c03.cloudfunctions.net/api/api/messages', { // Adjust the URL accordingly
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
